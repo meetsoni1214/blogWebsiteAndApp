@@ -149,4 +149,8 @@ fun applyControlStyle(
     }
 }
 
+fun validateEmail(email: String): Boolean {
+    val regex = "[A-Za-z](.*)(@)(.+)(\\.)(.+)"
+    return regex.toRegex().matches(email)
+}
 fun Long.parseDateString() = Date(this).toLocaleDateString()

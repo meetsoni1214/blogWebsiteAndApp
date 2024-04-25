@@ -6,6 +6,7 @@ import com.example.blogmultiplatform.models.Constants.AUTHOR_PARAM
 import com.example.blogmultiplatform.models.Constants.POST_ID_PARAM
 import com.example.blogmultiplatform.models.Constants.QUERY_PARAM
 import com.example.blogmultiplatform.models.Constants.SKIP_PARAM
+import com.example.blogmultiplatform.models.Newsletter
 import com.example.blogmultiplatform.models.Post
 import com.example.blogmultiplatform.models.RandomJoke
 import com.example.blogmultiplatform.models.User
@@ -135,6 +136,21 @@ suspend fun readMainPosts(
     }
 }
 
+suspend fun readSponsoredPosts(
+    onSuccess: (ApiListResponse) -> Unit,
+    onError: (Exception) -> Unit
+) {
+    try {
+        val result = window.api.tryGet(
+            apiPath = "readsponsoredposts"
+        )?.decodeToString()
+        onSuccess(result.parseData())
+    } catch (e: Exception) {
+        println(e)
+        onError(e)
+    }
+}
+
 suspend fun readLatestPosts(
     skip: Int,
     onSuccess: (ApiListResponse) -> Unit,
@@ -143,6 +159,22 @@ suspend fun readLatestPosts(
     try {
         val result = window.api.tryGet(
             apiPath = "readlatestposts?$SKIP_PARAM=$skip"
+        )?.decodeToString()
+        onSuccess(result.parseData())
+    } catch (e: Exception) {
+        println(e)
+        onError(e)
+    }
+}
+
+suspend fun readPopularPosts(
+    skip: Int,
+    onSuccess: (ApiListResponse) -> Unit,
+    onError: (Exception) -> Unit
+) {
+    try {
+        val result = window.api.tryGet(
+            apiPath = "readpopularposts?$SKIP_PARAM=$skip"
         )?.decodeToString()
         onSuccess(result.parseData())
     } catch (e: Exception) {
@@ -191,6 +223,20 @@ suspend fun readSelectedPosts(
         result?.parseData() ?: ApiResponse.Error(message = "result is null!")
     } catch (e: Exception) {
         ApiResponse.Error(message = e.message.toString())
+    }
+}
+
+suspend fun subscribeToNewsletter(
+    newsletter: Newsletter
+): String {
+    return try {
+        window.api.tryPost(
+            apiPath = "subscribe",
+            body = Json.encodeToString(newsletter).encodeToByteArray()
+        )?.decodeToString().toString().replace("\"","")
+    } catch (e: Exception) {
+        println(e.message)
+        "Something went wrong! Please try again after sometime."
     }
 }
 

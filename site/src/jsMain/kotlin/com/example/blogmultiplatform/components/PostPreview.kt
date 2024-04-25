@@ -45,6 +45,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.textAlign
 import com.varabyte.kobweb.compose.ui.modifiers.textOverflow
 import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.compose.ui.modifiers.visibility
+import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
@@ -53,6 +54,7 @@ import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
 import com.varabyte.kobweb.silk.components.layout.numColumns
 import com.varabyte.kobweb.silk.components.text.SpanText
+import org.jetbrains.compose.web.css.CSSColorValue
 import org.jetbrains.compose.web.css.CSSSizeValue
 import org.jetbrains.compose.web.css.CSSUnit
 import org.jetbrains.compose.web.css.LineStyle
@@ -69,6 +71,7 @@ fun PostPreview(
     darkTheme: Boolean = false,
     vertical: Boolean = true,
     titleMaxLines: Int = 2,
+    titleColor: CSSColorValue = Colors.Black,
     imageHeight: CSSSizeValue<CSSUnit.px> = 250.px,
     onSelect: (String) -> Unit = {},
     onDeselect: (String) -> Unit = {},
@@ -78,8 +81,10 @@ fun PostPreview(
     val context = rememberPageContext()
     if (vertical) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth(if (darkTheme) 100.percent else 95.percent)
+            modifier = modifier
+                .fillMaxWidth(if (darkTheme) 100.percent
+                else if (titleColor == Theme.Sponsored.rgb) 100.percent
+                else 95.percent)
                 .margin(bottom = 24.px)
                 .borderRadius(4.px)
                 .border(
@@ -110,12 +115,15 @@ fun PostPreview(
                 checked = checked,
                 imageHeight = imageHeight,
                 titleMaxLines = titleMaxLines,
-                vertical = vertical
+                vertical = vertical,
+                titleColor = titleColor
             )
         }
     } else {
         Row(
-            modifier = Modifier.cursor(Cursor.Pointer)
+            modifier = modifier
+                .onClick { onClick(postWithoutDetails.id) }
+                .cursor(Cursor.Pointer)
         ) {
             PostContent(
                 postWithoutDetails = postWithoutDetails,
@@ -124,7 +132,8 @@ fun PostPreview(
                 imageHeight = imageHeight,
                 titleMaxLines = titleMaxLines,
                 checked = checked,
-                vertical = vertical
+                vertical = vertical,
+                titleColor = titleColor
             )
         }
     }
@@ -136,6 +145,7 @@ fun PostContent(
     darkTheme: Boolean,
     selectableMode: Boolean,
     imageHeight: CSSSizeValue<CSSUnit.px>,
+    titleColor: CSSColorValue,
     titleMaxLines: Int,
     vertical: Boolean,
     checked: Boolean
@@ -144,7 +154,7 @@ fun PostContent(
         src = postWithoutDetails.thumbnail,
         modifier = Modifier
             .margin(bottom = if (darkTheme) 20.px else 16.px)
-            .fillMaxWidth()
+            .width(if (vertical) 100.percent else 300.px)
             .height(imageHeight)
             .objectFit(ObjectFit.Cover),
         description = "Post Thumbnail Image"
@@ -167,7 +177,7 @@ fun PostContent(
         )
         SpanText(
             modifier = Modifier
-                .color(if (darkTheme) Colors.White else Colors.Black)
+                .color(if (darkTheme) Colors.White else titleColor)
                 .margin(bottom = 12.px)
                 .fontSize(20.px)
                 .fontWeight(FontWeight.Bold)

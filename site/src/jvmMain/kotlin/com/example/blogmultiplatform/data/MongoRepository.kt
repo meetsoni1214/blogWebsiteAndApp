@@ -1,5 +1,6 @@
 package com.example.blogmultiplatform.data
 
+import com.example.blogmultiplatform.models.Newsletter
 import com.example.blogmultiplatform.models.Post
 import com.example.blogmultiplatform.models.PostWithoutDetails
 import com.example.blogmultiplatform.models.User
@@ -14,5 +15,8 @@ interface MongoRepository {
     suspend fun updatePost(post: Post): Boolean
     suspend fun readMyPosts(skip: Int, author: String): List<PostWithoutDetails>
     suspend fun readLatestPosts(skip: Int): List<PostWithoutDetails>
+    suspend fun readPopularPosts(skip: Int): List<PostWithoutDetails>
+    suspend fun readSponsoredPosts(): List<PostWithoutDetails>
     suspend fun readMainPosts(): List<PostWithoutDetails>
+    suspend fun subscribe(newsletter: Newsletter): String
 }

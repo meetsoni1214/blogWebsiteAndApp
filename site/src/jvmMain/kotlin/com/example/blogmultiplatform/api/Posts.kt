@@ -104,12 +104,32 @@ suspend fun readMainPosts(context: ApiContext) {
     }
 }
 
+@Api(routeOverride = "readsponsoredposts")
+suspend fun readSponsoredPosts(context: ApiContext) {
+    try {
+        val sponsoredPosts = context.data.getValue<MongoDB>().readSponsoredPosts()
+        context.res.setBody(ApiListResponse.Success(data = sponsoredPosts))
+    } catch (e: Exception) {
+        context.res.setBody(ApiListResponse.Error(message = e.message.toString()))
+    }
+}
 @Api(routeOverride = "readlatestposts")
 suspend fun readLatestPosts(context: ApiContext) {
     try {
         val skip = context.req.params[SKIP_PARAM]?.toInt() ?: 0
         val latestPosts = context.data.getValue<MongoDB>().readLatestPosts(skip = skip)
         context.res.setBody(ApiListResponse.Success(data = latestPosts))
+    } catch (e: Exception) {
+        context.res.setBody(ApiListResponse.Error(message = e.message.toString()))
+    }
+}
+
+@Api(routeOverride = "readpopularposts")
+suspend fun readPopularPosts(context: ApiContext) {
+    try {
+        val skip = context.req.params[SKIP_PARAM]?.toInt() ?: 0
+        val popularPosts = context.data.getValue<MongoDB>().readPopularPosts(skip = skip)
+        context.res.setBody(ApiListResponse.Success(data = popularPosts))
     } catch (e: Exception) {
         context.res.setBody(ApiListResponse.Error(message = e.message.toString()))
     }

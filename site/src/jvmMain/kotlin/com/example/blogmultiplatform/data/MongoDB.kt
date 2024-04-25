@@ -1,11 +1,13 @@
 package com.example.blogmultiplatform.data
 
 import com.example.blogmultiplatform.models.Constants.POSTS_PER_PAGE
+import com.example.blogmultiplatform.models.Newsletter
 import com.example.blogmultiplatform.models.Post
 import com.example.blogmultiplatform.models.PostWithoutDetails
 import com.example.blogmultiplatform.models.User
 import com.example.blogmultiplatform.util.Constants.DATABASE_NAME
 import com.example.blogmultiplatform.util.Constants.MAIN_POSTS_LIMIT
+import com.example.blogmultiplatform.util.Constants.SPONSORED_POSTS_LIMIT
 import com.varabyte.kobweb.api.data.add
 import com.varabyte.kobweb.api.init.InitApi
 import com.varabyte.kobweb.api.init.InitApiContext
@@ -36,6 +38,7 @@ class MongoDB(private val context: InitApiContext): MongoRepository {
     private val database = client.getDatabase(DATABASE_NAME)
     private val userCollection = database.getCollection<User>()
     private val postCollection = database.getCollection<Post>()
+    private val newsletterCollection = database.getCollection<Newsletter>()
     override suspend fun checkUserExistence(user: User): User? {
         return try {
             userCollection.
@@ -132,6 +135,25 @@ class MongoDB(private val context: InitApiContext): MongoRepository {
             .toList()
     }
 
+    override suspend fun readPopularPosts(skip: Int): List<PostWithoutDetails> {
+        return postCollection
+            .withDocumentClass(PostWithoutDetails::class.java)
+            .find(PostWithoutDetails::popular eq true)
+            .sort(descending(PostWithoutDetails::date))
+            .skip(skip)
+            .limit(POSTS_PER_PAGE)
+            .toList()
+    }
+
+    override suspend fun readSponsoredPosts(): List<PostWithoutDetails> {
+        return postCollection
+            .withDocumentClass(PostWithoutDetails::class.java)
+            .find(PostWithoutDetails::sponsored eq true)
+            .sort(descending(PostWithoutDetails::date))
+            .limit(SPONSORED_POSTS_LIMIT)
+            .toList()
+    }
+
     override suspend fun readMainPosts(): List<PostWithoutDetails> {
         return postCollection
             .withDocumentClass(PostWithoutDetails::class.java)
@@ -139,5 +161,21 @@ class MongoDB(private val context: InitApiContext): MongoRepository {
             .sort(descending(PostWithoutDetails::date))
             .limit(MAIN_POSTS_LIMIT)
             .toList()
+    }
+
+    override suspend fun subscribe(newsletter: Newsletter): String {
+        val result = newsletterCollection
+            .find(Newsletter::email eq newsletter.email)
+            .toList()
+        return if (result.isNotEmpty()) {
+            "You're already subscribed."
+        } else {
+            val newEmail = newsletterCollection
+                .insertOne(newsletter)
+                .awaitFirst()
+                .wasAcknowledged()
+            if (newEmail) "Successfully Subscribed!"
+            else "Something went wrong. Please try again later."
+        }
     }
 }

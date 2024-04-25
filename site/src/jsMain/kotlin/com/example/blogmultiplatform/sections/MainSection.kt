@@ -32,8 +32,7 @@ fun MainSection(posts: ApiListResponse, breakpoint: Breakpoint) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .maxWidth(PAGE_WIDTH.px)
-                .backgroundColor(Theme.Secondary.rgb),
+                .maxWidth(PAGE_WIDTH.px),
             contentAlignment = Alignment.Center
         ) {
             when (posts) {
@@ -58,8 +57,8 @@ fun MainPosts(
                 if (breakpoint > Breakpoint.MD) 80.percent else 90.percent
             )
             .margin(topBottom = 50.px),
-        verticalAlignment = Alignment.Top,
-        horizontalArrangement = Arrangement.Start
+//        verticalAlignment = Alignment.Top,
+//        horizontalArrangement = Arrangement.Start
     ) {
         if (breakpoint == Breakpoint.XL) {
             PostPreview(
@@ -73,7 +72,6 @@ fun MainPosts(
                 .margin(left = 20.px)) {
                 posts.drop(1).forEach { post ->
                     PostPreview(
-                        modifier = Modifier.margin(bottom = 20.px),
                         postWithoutDetails = post,
                         imageHeight = 200.px,
                         titleMaxLines = 1,

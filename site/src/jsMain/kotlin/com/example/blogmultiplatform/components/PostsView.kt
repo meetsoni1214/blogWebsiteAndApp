@@ -50,7 +50,7 @@ fun PostsView(
                 text = title,
                 modifier = Modifier
                     .fontFamily(FONT_FAMILY)
-                    .fontWeight(FontWeight.Medium)
+                    .fontWeight(FontWeight.Bold)
                     .margin(bottom = 24.px)
                     .fontSize(18.px)
             )
