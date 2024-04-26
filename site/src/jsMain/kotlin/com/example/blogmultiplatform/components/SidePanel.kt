@@ -248,6 +248,7 @@ fun OverflowSidePanel(
 ) {
     val scope = rememberCoroutineScope()
     val breakpoint = rememberBreakpoint()
+    val context = rememberPageContext()
 
     var translateX by remember { mutableStateOf((-100).percent) }
     var opacity by remember { mutableStateOf(0.percent) }
@@ -308,6 +309,10 @@ fun OverflowSidePanel(
                     description = "logo image",
                     modifier = Modifier
                         .width(80.px)
+                        .cursor(Cursor.Pointer)
+                        .onClick {
+                            context.router.navigateTo(Screen.HomePage.route)
+                        }
                 )
             }
             content()

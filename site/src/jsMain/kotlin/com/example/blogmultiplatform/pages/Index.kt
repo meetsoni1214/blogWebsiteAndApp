@@ -2,6 +2,7 @@ package com.example.blogmultiplatform.pages
 
 import androidx.compose.runtime.*
 import com.example.blogmultiplatform.components.CategoryNavigationItems
+import com.example.blogmultiplatform.components.LoadingIndicator
 import com.example.blogmultiplatform.components.OverflowSidePanel
 import com.example.blogmultiplatform.models.ApiListResponse
 import com.example.blogmultiplatform.models.Constants.POSTS_PER_PAGE
@@ -18,6 +19,7 @@ import com.example.blogmultiplatform.util.readMainPosts
 import com.example.blogmultiplatform.util.readPopularPosts
 import com.example.blogmultiplatform.util.readSponsoredPosts
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
+import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -32,6 +34,10 @@ fun HomePage() {
     val scope = rememberCoroutineScope()
     val breakpoint = rememberBreakpoint()
     var overflowOpened by remember { mutableStateOf(false) }
+    var apiResponseMainPosts by remember { mutableStateOf<ApiListResponse>(ApiListResponse.Idle) }
+    var apiResponseSponsoredPosts by remember { mutableStateOf<ApiListResponse>(ApiListResponse.Idle) }
+    var apiResponseLatestPosts by remember { mutableStateOf<ApiListResponse>(ApiListResponse.Idle) }
+    var apiResponsePopularPosts by remember { mutableStateOf<ApiListResponse>(ApiListResponse.Idle) }
     var mainPosts by remember { mutableStateOf<ApiListResponse>(ApiListResponse.Idle) }
     val sponsoredPosts = remember { mutableStateListOf<PostWithoutDetails>() }
     val latestPosts = remember { mutableStateListOf<PostWithoutDetails>() }
@@ -44,6 +50,7 @@ fun HomePage() {
     LaunchedEffect(Unit) {
         readMainPosts(
             onSuccess = {
+                apiResponseMainPosts = it
                 mainPosts = it
                         },
             onError = {mainPosts = ApiListResponse.Error(it.message.toString())}
@@ -51,6 +58,7 @@ fun HomePage() {
         readLatestPosts(
             skip = latestPostsToSkip,
             onSuccess = {
+                apiResponseLatestPosts = it
                 if (it is ApiListResponse.Success) {
                     latestPosts.addAll(it.data)
                     latestPostsToSkip += POSTS_PER_PAGE
@@ -61,6 +69,7 @@ fun HomePage() {
         )
         readSponsoredPosts(
             onSuccess = {
+                apiResponseSponsoredPosts = it
                 if (it is ApiListResponse.Success) {
                     sponsoredPosts.addAll(it.data)
                 }
@@ -70,6 +79,7 @@ fun HomePage() {
         readPopularPosts(
             skip = popularPostsToSkip,
             onSuccess = {
+                apiResponsePopularPosts = it
                 if (it is ApiListResponse.Success) {
                     popularPosts.addAll(it.data)
                     popularPostsToSkip += POSTS_PER_PAGE
@@ -79,90 +89,105 @@ fun HomePage() {
             onError = {}
         )
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        if (overflowOpened) {
-            OverflowSidePanel(
-                onMenuClosed = {
-                    overflowOpened = false
-                },
-                content = { CategoryNavigationItems(vertical = true) }
-            )
-        }
-        HeaderSection(
-            breakpoint = breakpoint,
-            onMenuOpened = { overflowOpened = true }
-        )
-        MainSection(breakpoint = breakpoint, posts = mainPosts)
-        PostsSection(
-            breakpoint = breakpoint,
-            posts = latestPosts,
-            title = "Latest Posts",
-            showMoreVisibility = showMoreLatest,
-            onShowMore = {
-               scope.launch {
-                   readLatestPosts(
-                       skip = latestPostsToSkip,
-                       onSuccess = { response ->
-                           if (response is ApiListResponse.Success) {
-                               if (response.data.isNotEmpty()) {
-                                   if (response.data.size < POSTS_PER_PAGE) {
-                                       showMoreLatest = false
-                                   }
-                                   latestPosts.addAll(response.data)
-                                   latestPostsToSkip += POSTS_PER_PAGE
-                               } else {
-                                   showMoreLatest = false
-                               }
-                           }
-                       },
-                       onError = {}
-                   )
-               }
-            },
-            onClick = {
 
+    if (apiResponseLatestPosts is ApiListResponse.Success
+        && apiResponsePopularPosts is ApiListResponse.Success
+        && apiResponseSponsoredPosts is ApiListResponse.Success
+        && apiResponseMainPosts is ApiListResponse.Success) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (overflowOpened) {
+                OverflowSidePanel(
+                    onMenuClosed = {
+                        overflowOpened = false
+                    },
+                    content = { CategoryNavigationItems(vertical = true) }
+                )
             }
-        )
-        SponsoredPostsSection(
-            posts = sponsoredPosts,
-            breakpoint = breakpoint,
-            onClick = {},
-        )
-        PostsSection(
-            breakpoint = breakpoint,
-            posts = popularPosts,
-            title = "Popular Posts",
-            showMoreVisibility = showMorePopular,
-            onShowMore = {
-                scope.launch {
-                    readPopularPosts(
-                        skip = popularPostsToSkip,
-                        onSuccess = { response ->
-                            if (response is ApiListResponse.Success) {
-                                if (response.data.isNotEmpty()) {
-                                    if (response.data.size < POSTS_PER_PAGE) {
+            HeaderSection(
+                breakpoint = breakpoint,
+                selectedCategory = null,
+                onMenuOpened = { overflowOpened = true }
+            )
+            MainSection(breakpoint = breakpoint, posts = mainPosts)
+            PostsSection(
+                breakpoint = breakpoint,
+                posts = latestPosts,
+                title = "Latest Posts",
+                showMoreVisibility = showMoreLatest,
+                onShowMore = {
+                    scope.launch {
+                        readLatestPosts(
+                            skip = latestPostsToSkip,
+                            onSuccess = { response ->
+                                if (response is ApiListResponse.Success) {
+                                    if (response.data.isNotEmpty()) {
+                                        if (response.data.size < POSTS_PER_PAGE) {
+                                            showMoreLatest = false
+                                        }
+                                        latestPosts.addAll(response.data)
+                                        latestPostsToSkip += POSTS_PER_PAGE
+                                    } else {
+                                        showMoreLatest = false
+                                    }
+                                }
+                            },
+                            onError = {}
+                        )
+                    }
+                },
+                onClick = {
+
+                }
+            )
+            SponsoredPostsSection(
+                posts = sponsoredPosts,
+                breakpoint = breakpoint,
+                onClick = {},
+            )
+            PostsSection(
+                breakpoint = breakpoint,
+                posts = popularPosts,
+                title = "Popular Posts",
+                showMoreVisibility = showMorePopular,
+                onShowMore = {
+                    scope.launch {
+                        readPopularPosts(
+                            skip = popularPostsToSkip,
+                            onSuccess = { response ->
+                                if (response is ApiListResponse.Success) {
+                                    if (response.data.isNotEmpty()) {
+                                        if (response.data.size < POSTS_PER_PAGE) {
+                                            showMorePopular = false
+                                        }
+                                        popularPosts.addAll(response.data)
+                                        popularPostsToSkip += POSTS_PER_PAGE
+                                    } else {
                                         showMorePopular = false
                                     }
-                                    popularPosts.addAll(response.data)
-                                    popularPostsToSkip += POSTS_PER_PAGE
-                                } else {
-                                    showMorePopular = false
                                 }
-                            }
-                        },
-                        onError = {}
-                    )
-                }
-            },
-            onClick = {
+                            },
+                            onError = {}
+                        )
+                    }
+                },
+                onClick = {
 
-            }
-        )
-        NewsletterSection(breakpoint = breakpoint)
+                }
+            )
+            NewsletterSection(breakpoint = breakpoint)
+        }
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            LoadingIndicator()
+        }
     }
 }

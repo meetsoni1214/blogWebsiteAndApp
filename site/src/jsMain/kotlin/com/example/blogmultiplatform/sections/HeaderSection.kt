@@ -9,10 +9,12 @@ import com.example.blogmultiplatform.components.CategoryNavigationItems
 import com.example.blogmultiplatform.components.SearchBar
 import com.example.blogmultiplatform.models.Category
 import com.example.blogmultiplatform.models.Theme
+import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.styles.CategoryItemStyle
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Constants.HEADER_HEIGHT
 import com.example.blogmultiplatform.util.Constants.PAGE_WIDTH
+import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.Res
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.FontWeight
@@ -36,6 +38,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
 import com.varabyte.kobweb.compose.ui.modifiers.textDecorationLine
 import com.varabyte.kobweb.compose.ui.modifiers.width
+import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.icons.fa.FaBars
 import com.varabyte.kobweb.silk.components.icons.fa.FaXmark
@@ -43,13 +46,17 @@ import com.varabyte.kobweb.silk.components.icons.fa.IconSize
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
+import kotlinx.browser.document
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.w3c.dom.HTMLInputElement
 
 @Composable
 fun HeaderSection(
     breakpoint: Breakpoint,
-    onMenuOpened: () -> Unit
+    onMenuOpened: () -> Unit,
+    logo: String = Res.Image.logoHome,
+    selectedCategory: Category?
 ) {
     Box(
         modifier = Modifier
@@ -66,7 +73,9 @@ fun HeaderSection(
         ) {
             Header(
                 breakpoint = breakpoint,
-                onMenuOpened = onMenuOpened
+                onMenuOpened = onMenuOpened,
+                logo = logo,
+                selectedCategory = selectedCategory
             )
         }
     }
@@ -75,10 +84,12 @@ fun HeaderSection(
 @Composable
 fun Header(
     breakpoint: Breakpoint,
-    onMenuOpened: () -> Unit
+    onMenuOpened: () -> Unit,
+    selectedCategory: Category?,
+    logo: String
 ) {
     var fullSearchBarOpened by remember { mutableStateOf(false) }
-
+    val context = rememberPageContext()
     Row(
         modifier = Modifier
             .fillMaxWidth(if (breakpoint > Breakpoint.MD) 80.percent else 90.percent)
@@ -113,18 +124,23 @@ fun Header(
                     .margin(right = 50.px)
                     .width(if (breakpoint >= Breakpoint.SM) 100.px else 70.px)
                     .cursor(Cursor.Pointer)
-                    .onClick {  },
-                src = Res.Image.logoHome,
+                    .onClick {
+                        context.router.navigateTo(Screen.HomePage.route)
+                    },
+                src = logo,
                 description = "Logo Image",
             )
         }
         if (breakpoint >= Breakpoint.LG) {
-            CategoryNavigationItems()
+            CategoryNavigationItems(selectedCategory = selectedCategory)
         }
         Spacer()
         SearchBar(
             breakpoint = breakpoint,
-            onEnterClick = {},
+            onEnterClick = {
+                val query = (document.getElementById(Id.adminSearchBar) as HTMLInputElement).value
+                context.router.navigateTo(Screen.SearchPage.searchByTitle(query))
+                           },
             onSearchIconClick = {fullSearchBarOpened = it},
             fullWidth = fullSearchBarOpened,
             darkTheme = true)

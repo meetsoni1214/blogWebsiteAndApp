@@ -3,6 +3,8 @@ package com.example.blogmultiplatform.api
 import com.example.blogmultiplatform.data.MongoDB
 import com.example.blogmultiplatform.models.ApiListResponse
 import com.example.blogmultiplatform.models.ApiResponse
+import com.example.blogmultiplatform.models.Category
+import com.example.blogmultiplatform.models.Constants
 import com.example.blogmultiplatform.models.Constants.AUTHOR_PARAM
 import com.example.blogmultiplatform.models.Constants.POST_ID_PARAM
 import com.example.blogmultiplatform.models.Constants.QUERY_PARAM
@@ -73,6 +75,18 @@ suspend fun searchPostsByTitle(context: ApiContext) {
         val query = context.req.params[QUERY_PARAM] ?: ""
         val skip = context.req.params[SKIP_PARAM]?.toInt() ?: 0
         val request = context.data.getValue<MongoDB>().searchPostsByTitle(query = query, skip = skip)
+        context.res.setBody(ApiListResponse.Success(data = request))
+    } catch (e: Exception) {
+        context.res.setBody(ApiListResponse.Error(message = e.message.toString()))
+    }
+}
+
+@Api(routeOverride = "searchpostsbycategory")
+suspend fun searchPostsByCategory(context: ApiContext) {
+    try {
+        val category = Category.valueOf(context.req.params[Constants.CATEGORY_PARAM] ?: Category.Programming.name)
+        val skip = context.req.params[SKIP_PARAM]?.toInt() ?: 0
+        val request = context.data.getValue<MongoDB>().searchPostsByCategory(category = category, skip = skip)
         context.res.setBody(ApiListResponse.Success(data = request))
     } catch (e: Exception) {
         context.res.setBody(ApiListResponse.Error(message = e.message.toString()))

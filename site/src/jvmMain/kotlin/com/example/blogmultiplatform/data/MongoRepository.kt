@@ -1,5 +1,6 @@
 package com.example.blogmultiplatform.data
 
+import com.example.blogmultiplatform.models.Category
 import com.example.blogmultiplatform.models.Newsletter
 import com.example.blogmultiplatform.models.Post
 import com.example.blogmultiplatform.models.PostWithoutDetails
@@ -19,4 +20,5 @@ interface MongoRepository {
     suspend fun readSponsoredPosts(): List<PostWithoutDetails>
     suspend fun readMainPosts(): List<PostWithoutDetails>
     suspend fun subscribe(newsletter: Newsletter): String
+    suspend fun searchPostsByCategory(category: Category, skip: Int): List<PostWithoutDetails>
 }
