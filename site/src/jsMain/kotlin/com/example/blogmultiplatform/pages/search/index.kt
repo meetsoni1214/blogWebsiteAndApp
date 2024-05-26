@@ -18,6 +18,7 @@ import com.example.blogmultiplatform.models.Constants.CATEGORY_PARAM
 import com.example.blogmultiplatform.models.Constants.POSTS_PER_PAGE
 import com.example.blogmultiplatform.models.Constants.QUERY_PARAM
 import com.example.blogmultiplatform.models.PostWithoutDetails
+import com.example.blogmultiplatform.sections.FooterSection
 import com.example.blogmultiplatform.sections.HeaderSection
 import com.example.blogmultiplatform.sections.PostsSection
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
@@ -93,6 +94,7 @@ fun SearchPage() {
                 skip = postsToSkip
             )
         } else if (hasQueryParam) {
+            (document.getElementById(Id.adminSearchBar) as HTMLInputElement).value = value
             searchPostsByTitle(
                 query = value,
                 onError = {},
@@ -214,5 +216,6 @@ fun SearchPage() {
         } else {
             LoadingIndicator()
         }
+        FooterSection()
     }
 }

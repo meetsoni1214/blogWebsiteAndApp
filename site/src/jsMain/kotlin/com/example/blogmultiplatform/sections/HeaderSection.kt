@@ -56,7 +56,7 @@ fun HeaderSection(
     breakpoint: Breakpoint,
     onMenuOpened: () -> Unit,
     logo: String = Res.Image.logoHome,
-    selectedCategory: Category?
+    selectedCategory: Category? = null
 ) {
     Box(
         modifier = Modifier

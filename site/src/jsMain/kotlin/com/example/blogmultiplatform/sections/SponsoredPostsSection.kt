@@ -22,6 +22,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
+import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.silk.components.icons.fa.FaTag
 import com.varabyte.kobweb.silk.components.icons.fa.IconSize
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
@@ -40,6 +41,7 @@ fun SponsoredPostsSection(
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(bottom = 50.px)
             .backgroundColor(Theme.LightGray.rgb),
         contentAlignment = Alignment.Center
     ) {

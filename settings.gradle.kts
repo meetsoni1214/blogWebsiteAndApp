@@ -11,4 +11,4 @@ pluginManagement {
 rootProject.name = "BlogMultiplatform"
 
 include(":site")
-
+include(":androidapp")
