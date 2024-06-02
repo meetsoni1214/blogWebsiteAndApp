@@ -1,12 +1,10 @@
 package com.example.androidapp.model
 
-import com.example.blogmultiplatform.models.Category
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
-import kotlinx.serialization.Serializable
 
 
-open class PostSync: RealmObject{
+open class Post: RealmObject{
     @PrimaryKey
     var _id: String = ""
     var author: String = ""

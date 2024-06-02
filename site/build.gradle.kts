@@ -55,6 +55,7 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(libs.kotlinx.serialization)
+                implementation(project(":shared"))
             }
         }
 

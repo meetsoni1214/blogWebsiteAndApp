@@ -381,7 +381,7 @@ fun CreateScreen() {
                                         title = uiState.title,
                                         subtitle = uiState.subtitle,
                                         content = uiState.content,
-                                        date = Date.now().toLong(),
+                                        date = Date.now(),
                                         thumbnail = uiState.thumbnail,
                                         category = uiState.category,
                                         main = uiState.main,
@@ -542,7 +542,7 @@ fun ThumbnailUploader(
                 .onClick {
                     document.loadDataUrlFromDisk(
                         accept = "image/png, image/jpeg",
-                        onLoaded = {
+                        onLoad = {
                             onThumbnailSelect(filename, it)
                         }
                     )

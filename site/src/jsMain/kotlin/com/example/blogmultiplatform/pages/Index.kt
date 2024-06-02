@@ -38,7 +38,7 @@ fun HomePage() {
     val context = rememberPageContext()
     val breakpoint = rememberBreakpoint()
     var overflowOpened by remember { mutableStateOf(false) }
-    var apiResponseMainPosts by remember { mutableStateOf<ApiListResponse>(ApiListResponse.Idle) }
+//    var apiResponseMainPosts by remember { mutableStateOf<ApiListResponse>(ApiListResponse.Idle) }
     var apiResponseSponsoredPosts by remember { mutableStateOf<ApiListResponse>(ApiListResponse.Idle) }
     var apiResponseLatestPosts by remember { mutableStateOf<ApiListResponse>(ApiListResponse.Idle) }
     var apiResponsePopularPosts by remember { mutableStateOf<ApiListResponse>(ApiListResponse.Idle) }
@@ -54,10 +54,11 @@ fun HomePage() {
     LaunchedEffect(Unit) {
         readMainPosts(
             onSuccess = {
-                apiResponseMainPosts = it
+//                apiResponseMainPosts = it
                 mainPosts = it
+                println("main posts: $it")
                         },
-            onError = {mainPosts = ApiListResponse.Error(it.message.toString())}
+            onError = { println(it.message) }
         )
         readLatestPosts(
             skip = latestPostsToSkip,
@@ -65,39 +66,42 @@ fun HomePage() {
                 apiResponseLatestPosts = it
                 if (it is ApiListResponse.Success) {
                     latestPosts.addAll(it.data)
+                    println("latest posts" + it.data)
                     latestPostsToSkip += POSTS_PER_PAGE
                     if (it.data.size >= POSTS_PER_PAGE) showMoreLatest = true
                 }
             },
-            onError = {}
+            onError = { println(it.message)}
         )
         readSponsoredPosts(
             onSuccess = {
                 apiResponseSponsoredPosts = it
                 if (it is ApiListResponse.Success) {
+                    println("sponsored Posts" + it.data)
                     sponsoredPosts.addAll(it.data)
                 }
             },
-            onError = {}
+            onError = { println(it.message) }
         )
         readPopularPosts(
             skip = popularPostsToSkip,
             onSuccess = {
                 apiResponsePopularPosts = it
                 if (it is ApiListResponse.Success) {
+                    println("popular posts" + it.data)
                     popularPosts.addAll(it.data)
                     popularPostsToSkip += POSTS_PER_PAGE
                     if (it.data.size >= POSTS_PER_PAGE) showMorePopular = true
                 }
             },
-            onError = {}
+            onError = {println(it.message)}
         )
     }
 
-    if (apiResponseLatestPosts is ApiListResponse.Success
-        && apiResponsePopularPosts is ApiListResponse.Success
-        && apiResponseSponsoredPosts is ApiListResponse.Success
-        && apiResponseMainPosts is ApiListResponse.Success) {
+//    if (apiResponseLatestPosts is ApiListResponse.Success
+//        && apiResponsePopularPosts is ApiListResponse.Success
+//        && apiResponseSponsoredPosts is ApiListResponse.Success
+//        && apiResponseMainPosts is ApiListResponse.Success) {
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -194,13 +198,13 @@ fun HomePage() {
             NewsletterSection(breakpoint = breakpoint)
             FooterSection()
         }
-    } else {
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            LoadingIndicator()
-        }
-    }
+//    } else {
+//        Box(
+//            modifier = Modifier
+//                .fillMaxSize(),
+//            contentAlignment = Alignment.Center
+//        ) {
+//            LoadingIndicator()
+//        }
+//    }
 }

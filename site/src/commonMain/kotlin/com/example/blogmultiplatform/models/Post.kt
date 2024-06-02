@@ -8,7 +8,8 @@ import kotlinx.serialization.Serializable
     @SerialName("_id")
      val id: String = "",
      val author: String = "",
-     val date: Long = 0L,
+     val date: Double = 0.0,
+//     val date: Long = 0L,
      val title: String,
      val subtitle: String,
      val thumbnail: String,
@@ -24,7 +25,8 @@ import kotlinx.serialization.Serializable
     @SerialName("_id")
      val id: String = "",
      val author: String,
-     val date: Long,
+//     val date: Long,
+     val date: Double,
      val title: String,
      val subtitle: String,
      val thumbnail: String,

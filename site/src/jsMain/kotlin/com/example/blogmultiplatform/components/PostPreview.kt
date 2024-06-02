@@ -177,7 +177,7 @@ fun PostContent(
                 .color(if (darkTheme) Theme.HalfWhite.rgb else Theme.HalfBlack.rgb)
                 .fontSize(12.px)
                 .fontFamily(FONT_FAMILY),
-            text = postWithoutDetails.date.parseDateString()
+            text = postWithoutDetails.date.toLong().parseDateString()
         )
         SpanText(
             modifier = Modifier
