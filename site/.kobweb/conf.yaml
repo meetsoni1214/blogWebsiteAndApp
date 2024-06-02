@@ -12,7 +12,7 @@ server:
       siteRoot: ".kobweb/site"
   cors:
     hosts:
-      - name: ""
+      - name: "blogwebsiteandapp.onrender.com"
         schemes:
           - "https"
 
