@@ -49,8 +49,8 @@ WORKDIR /project/${KOBWEB_APP_ROOT}
 # Decrease Gradle memory usage to avoid OOM situations in tight environments
 # (many free Cloud tiers only give you 512M of RAM). The following amount
 # should be more than enough to build and export our site.
-#RUN mkdir ~/.gradle && \
-#    echo "org.gradle.jvmargs=-Xmx256m" >> ~/.gradle/gradle.properties
+RUN mkdir ~/.gradle && \
+   echo "org.gradle.jvmargs=-Xmx256m" >> ~/.gradle/gradle.properties
 
 RUN kobweb export --notty
 
