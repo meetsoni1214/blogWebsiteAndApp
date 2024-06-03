@@ -32,7 +32,11 @@ fun initMongoDB(context: InitApiContext) {
         "org.litote.mongo.test.mapping.service",
         "org.litote.kmongo.serialization.SerializationClassMappingTypeService"
     )
-    context.data.add(MongoDB(context))
+    System.getenv().forEach { (key, value) ->
+        if (key != null &&  key == "MONGODB_URI") {
+            context.data.add(MongoDB(context))
+        }
+    }
 }
 class MongoDB(private val context: InitApiContext): MongoRepository {
 //    private val client = KMongo.createClient()
