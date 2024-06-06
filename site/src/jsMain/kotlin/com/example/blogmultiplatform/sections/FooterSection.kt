@@ -1,7 +1,7 @@
 package com.example.blogmultiplatform.sections
 
 import androidx.compose.runtime.Composable
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.foundation.layout.Box
@@ -25,7 +25,7 @@ fun FooterSection () {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .backgroundColor(Theme.Secondary.rgb)
+            .backgroundColor(JsTheme.Secondary.rgb)
             .padding(topBottom = 50.px),
         contentAlignment = Alignment.Center
     ) {
@@ -43,7 +43,7 @@ fun FooterSection () {
                 modifier = Modifier
                     .fontFamily(FONT_FAMILY)
                     .fontSize(18.px)
-                    .color(Theme.Primary.rgb)
+                    .color(JsTheme.Primary.rgb)
                     .fontWeight(FontWeight.Medium)
             )
         }

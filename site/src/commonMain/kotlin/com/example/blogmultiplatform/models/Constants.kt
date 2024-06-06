@@ -1,5 +1,6 @@
 package com.example.blogmultiplatform.models
 
+
 object Constants {
     const val POSTS_PER_PAGE = 8
     const val QUERY_PARAM  = "query"

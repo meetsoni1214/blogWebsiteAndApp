@@ -7,7 +7,6 @@ import com.varabyte.kobweb.api.Api
 import com.varabyte.kobweb.api.ApiContext
 import com.varabyte.kobweb.api.data.getValue
 import com.varabyte.kobweb.api.http.setBodyText
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.nio.charset.StandardCharsets
@@ -25,7 +24,7 @@ suspend fun userCheck(context: ApiContext) {
         if (user != null) {
             context.res.setBodyText(
                 Json.encodeToString<UserWithoutPassword>(
-                    UserWithoutPassword(id = user.id, username = user.username)
+                    UserWithoutPassword(_id = user._id, username = user.username)
                 )
             )
         } else {

@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.models.User
 import com.example.blogmultiplatform.models.UserWithoutPassword
 import com.example.blogmultiplatform.navigation.Screen
@@ -22,12 +22,10 @@ import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
-import com.varabyte.kobweb.compose.foundation.layout.Spacer
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
-import com.varabyte.kobweb.compose.ui.modifiers.border
 import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
@@ -41,7 +39,6 @@ import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
 import com.varabyte.kobweb.compose.ui.modifiers.outline
 import com.varabyte.kobweb.compose.ui.modifiers.padding
-import com.varabyte.kobweb.compose.ui.modifiers.size
 import com.varabyte.kobweb.compose.ui.modifiers.textAlign
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.toAttrs
@@ -60,7 +57,6 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Input
 import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.WindowLocalStorage
 import org.w3c.dom.set
 
 @Page
@@ -76,7 +72,7 @@ fun LoginScreen  () {
         Column(
             modifier = Modifier
                 .padding(leftRight = 50.px, top = 80.px, bottom = 24.px)
-                .backgroundColor(Theme.LightGray.rgb),
+                .backgroundColor(JsTheme.LightGray.rgb),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -132,7 +128,7 @@ fun LoginScreen  () {
                     .height(54.px)
                     .margin(bottom = 24.px)
                     .fontSize(16.px)
-                    .backgroundColor(Theme.Primary.rgb)
+                    .backgroundColor(JsTheme.Primary.rgb)
                     .color(Colors.White)
                     .borderRadius(r = 4.px)
                     .fontFamily(FONT_FAMILY)
@@ -187,7 +183,7 @@ private fun rememberLoggedIn(
 ) {
     localStorage["remember"] = remember.toString()
     if (user != null) {
-        localStorage["userId"] = user.id
+        localStorage["userId"] = user._id
         localStorage["username"] = user.username
     }
 }

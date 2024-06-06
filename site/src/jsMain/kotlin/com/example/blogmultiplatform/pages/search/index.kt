@@ -12,29 +12,32 @@ import com.example.blogmultiplatform.components.CategoryNavigationItems
 import com.example.blogmultiplatform.components.LoadingIndicator
 import com.example.blogmultiplatform.components.OverflowSidePanel
 import com.example.blogmultiplatform.models.ApiListResponse
-import com.example.blogmultiplatform.models.ApiResponse
-import com.example.blogmultiplatform.models.Category
+import com.example.shared.Category
 import com.example.blogmultiplatform.models.Constants.CATEGORY_PARAM
 import com.example.blogmultiplatform.models.Constants.POSTS_PER_PAGE
 import com.example.blogmultiplatform.models.Constants.QUERY_PARAM
 import com.example.blogmultiplatform.models.PostWithoutDetails
+import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.sections.FooterSection
 import com.example.blogmultiplatform.sections.HeaderSection
 import com.example.blogmultiplatform.sections.PostsSection
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.Res
-import com.example.blogmultiplatform.util.readLatestPosts
 import com.example.blogmultiplatform.util.searchPostsByCategory
 import com.example.blogmultiplatform.util.searchPostsByTitle
+import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
+import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
+import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
+import com.varabyte.kobweb.compose.ui.modifiers.height
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.textAlign
 import com.varabyte.kobweb.core.Page
@@ -44,6 +47,7 @@ import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import kotlinx.browser.document
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.vh
 import org.w3c.dom.HTMLInputElement
 
 @Page(routeOverride = "query")
@@ -97,7 +101,9 @@ fun SearchPage() {
             (document.getElementById(Id.adminSearchBar) as HTMLInputElement).value = value
             searchPostsByTitle(
                 query = value,
-                onError = {},
+                onError = {
+                          println(it.message)
+                },
                 onSuccess = { response ->
                     apiResponse = response
                     if (response is ApiListResponse.Success) {
@@ -163,57 +169,74 @@ fun SearchPage() {
                         .textAlign(TextAlign.Center)
                 )
             }
-            PostsSection(
-                breakpoint = breakpoint,
-                posts = searchedPosts,
-                showMoreVisibility = showMorePosts,
-                onShowMore = {
-                    scope.launch {
-                        if (hasCategoryParam) {
-                            searchPostsByCategory(
-                                skip = postsToSkip,
-                                category = runCatching { Category.valueOf(value) }.getOrElse { Category.Programming },
-                                onSuccess = { response ->
-                                    if (response is ApiListResponse.Success) {
-                                        if (response.data.isNotEmpty()) {
-                                            if (response.data.size < POSTS_PER_PAGE) {
+            if (searchedPosts.isNotEmpty()) {
+                PostsSection(
+                    breakpoint = breakpoint,
+                    posts = searchedPosts,
+                    showMoreVisibility = showMorePosts,
+                    onShowMore = {
+                        scope.launch {
+                            if (hasCategoryParam) {
+                                searchPostsByCategory(
+                                    skip = postsToSkip,
+                                    category = runCatching { Category.valueOf(value) }.getOrElse { Category.Programming },
+                                    onSuccess = { response ->
+                                        if (response is ApiListResponse.Success) {
+                                            if (response.data.isNotEmpty()) {
+                                                if (response.data.size < POSTS_PER_PAGE) {
+                                                    showMorePosts = false
+                                                }
+                                                searchedPosts.addAll(response.data)
+                                                postsToSkip += POSTS_PER_PAGE
+                                            } else {
                                                 showMorePosts = false
                                             }
-                                            searchedPosts.addAll(response.data)
-                                            postsToSkip += POSTS_PER_PAGE
-                                        } else {
-                                            showMorePosts = false
                                         }
-                                    }
-                                },
-                                onError = {}
-                            )
-                        } else if (hasQueryParam) {
-                            (document.getElementById(Id.adminSearchBar) as HTMLInputElement).value = value
-                            searchPostsByTitle(
-                                skip = postsToSkip,
-                                query = value,
-                                onSuccess = { response ->
-                                    if (response is ApiListResponse.Success) {
-                                        if (response.data.isNotEmpty()) {
-                                            if (response.data.size < POSTS_PER_PAGE) {
+                                    },
+                                    onError = { println(it.message) }
+                                )
+                            } else if (hasQueryParam) {
+                                (document.getElementById(Id.adminSearchBar) as HTMLInputElement).value = value
+                                searchPostsByTitle(
+                                    skip = postsToSkip,
+                                    query = value,
+                                    onSuccess = { response ->
+                                        if (response is ApiListResponse.Success) {
+                                            if (response.data.isNotEmpty()) {
+                                                if (response.data.size < POSTS_PER_PAGE) {
+                                                    showMorePosts = false
+                                                }
+                                                searchedPosts.addAll(response.data)
+                                                postsToSkip += POSTS_PER_PAGE
+                                            } else {
                                                 showMorePosts = false
                                             }
-                                            searchedPosts.addAll(response.data)
-                                            postsToSkip += POSTS_PER_PAGE
-                                        } else {
-                                            showMorePosts = false
                                         }
-                                    }
-                                },
-                                onError = {}
-                            )
+                                    },
+                                    onError = { println(it.message) }
+                                )
+                            }
                         }
-                    }
-                },
-                onClick = {}
-            )
+                    },
+                    onClick = { context.router.navigateTo(Screen.PostPage.getPost(id = it))}
+                )
+            } else {
+                Box(
+                    modifier = Modifier.height(100.vh),
+                    contentAlignment = Alignment.Center
+                ) {
+                    SpanText(
+                        modifier = Modifier
+                            .fontFamily(FONT_FAMILY)
+                            .fontSize(16.px)
+                            .fontWeight(FontWeight.Medium),
+                        text = "Posts not found."
+                    )
+                }
+            }
+
         } else {
+            println(apiResponse)
             LoadingIndicator()
         }
         FooterSection()

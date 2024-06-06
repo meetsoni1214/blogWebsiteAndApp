@@ -7,10 +7,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.androidapp.model.Category
 import com.example.androidapp.navigation.Screen
 import com.example.androidapp.screens.home.HomeScreen
 import com.example.androidapp.screens.home.HomeViewModel
+import com.example.shared.Category
 
 fun NavGraphBuilder.homeRoute(
     onCategorySelect: (Category) -> Unit,

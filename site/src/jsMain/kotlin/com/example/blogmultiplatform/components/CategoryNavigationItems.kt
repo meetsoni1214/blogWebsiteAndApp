@@ -1,8 +1,8 @@
 package com.example.blogmultiplatform.components
 
 import androidx.compose.runtime.Composable
-import com.example.blogmultiplatform.models.Category
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.Category
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.styles.CategoryItemStyle
 import com.example.blogmultiplatform.util.Constants
@@ -24,7 +24,7 @@ import org.jetbrains.compose.web.css.px
 
 @Composable
 fun CategoryNavigationItems(
-    selectedCategory: Category? = null,
+    selectedCategory: com.example.shared.Category? = null,
     vertical: Boolean = false
 ) {
     val context = rememberPageContext()
@@ -41,7 +41,7 @@ fun CategoryNavigationItems(
                 )
                 .thenIf(
                     condition = selectedCategory == category,
-                    other = Modifier.color(Theme.Primary.rgb)
+                    other = Modifier.color(JsTheme.Primary.rgb)
                 )
                 .textDecorationLine(TextDecorationLine.None)
                 .fontFamily(Constants.FONT_FAMILY)

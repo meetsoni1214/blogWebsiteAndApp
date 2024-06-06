@@ -2,7 +2,6 @@ package com.example.blogmultiplatform.pages
 
 import androidx.compose.runtime.*
 import com.example.blogmultiplatform.components.CategoryNavigationItems
-import com.example.blogmultiplatform.components.LoadingIndicator
 import com.example.blogmultiplatform.components.OverflowSidePanel
 import com.example.blogmultiplatform.models.ApiListResponse
 import com.example.blogmultiplatform.models.Constants.POSTS_PER_PAGE
@@ -11,17 +10,14 @@ import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.sections.FooterSection
 import com.example.blogmultiplatform.sections.HeaderSection
 import com.example.blogmultiplatform.sections.MainSection
-import com.example.blogmultiplatform.sections.NewsletterContent
 import com.example.blogmultiplatform.sections.NewsletterSection
 import com.example.blogmultiplatform.sections.PostsSection
-import com.example.blogmultiplatform.sections.SponsoredPosts
 import com.example.blogmultiplatform.sections.SponsoredPostsSection
 import com.example.blogmultiplatform.util.readLatestPosts
 import com.example.blogmultiplatform.util.readMainPosts
 import com.example.blogmultiplatform.util.readPopularPosts
 import com.example.blogmultiplatform.util.readSponsoredPosts
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
-import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -31,7 +27,7 @@ import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import kotlinx.coroutines.launch
 
-@Page
+@Page()
 @Composable
 fun HomePage() {
     val scope = rememberCoroutineScope()

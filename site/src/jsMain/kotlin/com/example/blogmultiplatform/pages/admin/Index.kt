@@ -5,12 +5,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.components.AdminPageLayout
 import com.example.blogmultiplatform.components.LoadingIndicator
 import com.example.blogmultiplatform.models.RandomJoke
-import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Constants.PAGE_WIDTH
@@ -53,19 +52,10 @@ import com.varabyte.kobweb.silk.components.icons.fa.IconSize
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
-import kotlinx.browser.localStorage
-import kotlinx.browser.window
-import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.vh
-import org.w3c.dom.get
-import org.w3c.dom.set
-import kotlin.js.Date
-import kotlin.random.Random
 
 @Page
 @Composable
@@ -123,7 +113,7 @@ fun HomeContent(randomJoke: RandomJoke?) {
                             .fillMaxWidth(40.percent)
                             .textAlign(TextAlign.Center)
                             .fontFamily(FONT_FAMILY)
-                            .color(Theme.Secondary.rgb)
+                            .color(JsTheme.Secondary.rgb)
                             .fontSize(28.px)
                             .fontWeight(FontWeight.Bold),
                         text = randomJoke.joke.split(":")[1].dropLast(1)
@@ -134,7 +124,7 @@ fun HomeContent(randomJoke: RandomJoke?) {
                             .fillMaxWidth(40.percent)
                             .textAlign(TextAlign.Center)
                             .fontFamily(FONT_FAMILY)
-                            .color(Theme.HalfBlack.rgb)
+                            .color(JsTheme.HalfBlack.rgb)
                             .fontSize(20.px)
                             .fontWeight(FontWeight.Normal),
                         text = randomJoke.joke.split(":").last()
@@ -146,7 +136,7 @@ fun HomeContent(randomJoke: RandomJoke?) {
                             .fillMaxWidth(40.percent)
                             .textAlign(TextAlign.Center)
                             .fontFamily(FONT_FAMILY)
-                            .color(Theme.Secondary.rgb)
+                            .color(JsTheme.Secondary.rgb)
                             .fontSize(28.px)
                             .fontWeight(FontWeight.Bold),
                         text = randomJoke.joke
@@ -185,7 +175,7 @@ fun AddButton() {
                 .styleModifier {
                     property("pointer-events", "auto")
                 }
-                .backgroundColor(Theme.Primary.rgb)
+                .backgroundColor(JsTheme.Primary.rgb)
                 .cursor(Cursor.Pointer)
                 .onClick {
                     context.router.navigateTo(Screen.AdminCreate.route)

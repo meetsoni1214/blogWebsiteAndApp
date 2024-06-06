@@ -73,7 +73,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(libs.kobweb.api)
-                implementation(libs.kmongo.database)
+                implementation(libs.mongodb.kotlin.driver)
                 implementation(libs.kotlinx.serialization)
             }
         }

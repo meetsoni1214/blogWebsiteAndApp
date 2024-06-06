@@ -5,11 +5,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.androidapp.model.Category
 import com.example.androidapp.navigation.Screen
 import com.example.androidapp.screens.category.CategoryScreen
 import com.example.androidapp.screens.category.CategoryViewModel
 import com.example.androidapp.util.Constants.CATEGORY_ARGUMENT
+import com.example.shared.Category
 
 fun NavGraphBuilder.categoryRoute(
     onBackPress: () -> Unit,

@@ -1,5 +1,6 @@
 package com.example.androidapp.model
 
+import com.example.shared.Category
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 

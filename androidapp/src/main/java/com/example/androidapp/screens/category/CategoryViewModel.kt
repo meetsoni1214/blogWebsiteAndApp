@@ -7,9 +7,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidapp.data.MongoSync
-import com.example.androidapp.model.Category
 import com.example.androidapp.model.Post
 import com.example.androidapp.util.RequestState
+import com.example.shared.Category
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

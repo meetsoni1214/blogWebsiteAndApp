@@ -1,10 +1,10 @@
 package com.example.blogmultiplatform.sections
 
 import androidx.compose.runtime.Composable
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.components.PostPreview
 import com.example.blogmultiplatform.models.ApiListResponse
 import com.example.blogmultiplatform.models.PostWithoutDetails
-import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.util.Constants.PAGE_WIDTH
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -26,7 +26,7 @@ fun MainSection(onPostClick: (String) -> Unit,
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .backgroundColor(Theme.Secondary.rgb),
+            .backgroundColor(JsTheme.Secondary.rgb),
         contentAlignment = Alignment.Center
     ) {
         Box(
@@ -69,7 +69,7 @@ fun MainPosts(
             PostPreview(
                 postWithoutDetails = posts.first(),
                 darkTheme = true,
-                onClick = {onPostClick(posts.first().id)},
+                onClick = {onPostClick(posts.first()._id)},
                 imageHeight = 640.px
             )
             Column(modifier = Modifier
@@ -77,12 +77,13 @@ fun MainPosts(
                 .margin(left = 20.px)) {
                 posts.drop(1).forEach { post ->
                     PostPreview(
+                        modifier = Modifier.margin(bottom = 20.px),
                         postWithoutDetails = post,
                         imageHeight = 200.px,
                         titleMaxLines = 1,
                         vertical = false,
                         darkTheme = true,
-                        onClick = {onPostClick(post.id)},
+                        onClick = {onPostClick(post._id)},
                     )
                 }
             }
@@ -93,7 +94,7 @@ fun MainPosts(
                 PostPreview(
                     postWithoutDetails = posts.first(),
                     darkTheme = true,
-                    onClick = {onPostClick(posts.first().id)},
+                    onClick = {onPostClick(posts.first()._id)},
                 )
             }
             Box(
@@ -102,16 +103,23 @@ fun MainPosts(
                 PostPreview(
                     postWithoutDetails = posts[1],
                     darkTheme = true,
-                    onClick = {onPostClick(posts[1].id)}
+                    onClick = {onPostClick(posts[1]._id)}
                 )
             }
 
+        } else if (breakpoint >= Breakpoint.MD) {
+            PostPreview(
+                postWithoutDetails = posts.first(),
+                darkTheme = true,
+                onClick = {onPostClick(posts.first()._id)},
+                imageHeight = 640.px
+            )
         } else {
             PostPreview(
                 postWithoutDetails = posts.first(),
                 darkTheme = true,
-                onClick = {onPostClick(posts.first().id)},
-                imageHeight = 640.px
+                onClick = {onPostClick(posts.first()._id)},
+//                imageHeight = 640.px
             )
         }
     }

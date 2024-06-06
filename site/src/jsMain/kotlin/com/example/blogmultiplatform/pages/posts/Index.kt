@@ -3,21 +3,19 @@ package com.example.blogmultiplatform.pages.posts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.example.blogmultiplatform.Constants.SHOW_SECTIONS_PARAM
+import com.example.shared.Constants.SHOW_SECTIONS_PARAM
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.components.CategoryNavigationItems
 import com.example.blogmultiplatform.components.ErrorView
 import com.example.blogmultiplatform.components.LoadingIndicator
 import com.example.blogmultiplatform.components.OverflowSidePanel
 import com.example.blogmultiplatform.models.ApiResponse
-import com.example.blogmultiplatform.models.Category
 import com.example.blogmultiplatform.models.Constants.POST_ID_PARAM
 import com.example.blogmultiplatform.models.Post
-import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.sections.FooterSection
 import com.example.blogmultiplatform.sections.HeaderSection
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
@@ -57,11 +55,9 @@ import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import kotlinx.browser.document
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
 import org.w3c.dom.HTMLDivElement
-import org.w3c.dom.HTMLInputElement
 
 @Page(routeOverride = "post")
 @Composable
@@ -160,7 +156,7 @@ fun PostContent(
         SpanText(
             modifier = Modifier
                 .fillMaxWidth()
-                .color(Theme.HalfBlack.rgb)
+                .color(JsTheme.HalfBlack.rgb)
                 .fontFamily(FONT_FAMILY)
                 .fontSize(14.px),
             text = post.date.toLong().parseDateString()

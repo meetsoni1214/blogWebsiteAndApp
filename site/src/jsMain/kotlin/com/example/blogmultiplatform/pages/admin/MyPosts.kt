@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.components.AdminPageLayout
 import com.example.blogmultiplatform.components.PostsView
 import com.example.blogmultiplatform.components.SearchBar
@@ -15,7 +16,6 @@ import com.example.blogmultiplatform.models.ApiListResponse
 import com.example.blogmultiplatform.models.Constants.POSTS_PER_PAGE
 import com.example.blogmultiplatform.models.Constants.QUERY_PARAM
 import com.example.blogmultiplatform.models.PostWithoutDetails
-import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.util.Constants.COLLAPSED_PANEL_HEIGHT
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
@@ -187,7 +187,7 @@ fun MyPostsScreen() {
                    )
                    SpanText(
                        modifier = Modifier
-                           .color(if (selectableMode) Colors.Black else Theme.HalfBlack.rgb),
+                           .color(if (selectableMode) Colors.Black else JsTheme.HalfBlack.rgb),
                        text = switchText
                    )
                }
@@ -195,7 +195,7 @@ fun MyPostsScreen() {
                        attrs = Modifier
                            .height(54.px)
                            .padding(leftRight = 24.px)
-                           .backgroundColor(Theme.Red.rgb)
+                           .backgroundColor(JsTheme.Red.rgb)
                            .borderRadius(4.px)
                            .fontFamily(FONT_FAMILY)
                            .fontSize(14.px)
@@ -210,7 +210,7 @@ fun MyPostsScreen() {
                                        postsToSkip -= selectedPosts.size
                                        selectedPosts.forEach { deletedPostId ->
                                            myPosts.removeAll {
-                                               it.id == deletedPostId
+                                               it._id == deletedPostId
                                            }
                                        }
                                        selectedPosts.clear()

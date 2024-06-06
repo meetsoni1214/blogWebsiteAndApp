@@ -6,9 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.components.MessagePopup
 import com.example.blogmultiplatform.models.Newsletter
-import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.styles.NewsletterInputStyle
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Constants.PAGE_WIDTH
@@ -138,7 +138,7 @@ fun NewsletterContent(
                 .margin(top = 6.px)
                 .fontFamily(FONT_FAMILY)
                 .fontSize(18.px)
-                .color(Theme.HalfBlack.rgb)
+                .color(JsTheme.HalfBlack.rgb)
                 .fontWeight(FontWeight.Normal)
                 .textAlign(TextAlign.Center),
             text = "Keep up with latest news and blogs."
@@ -190,8 +190,8 @@ fun SubscriptionForm(
                 Id.emailInput
             )
             .height(54.px)
-            .color(Theme.DarkGray.rgb)
-            .backgroundColor(Theme.Gray.rgb)
+            .color(JsTheme.DarkGray.rgb)
+            .backgroundColor(JsTheme.Gray.rgb)
             .padding(leftRight = 24.px)
             .fontFamily(FONT_FAMILY)
             .fontSize(16.px)
@@ -218,7 +218,7 @@ fun SubscriptionForm(
             .borderRadius(100.px)
             .padding(leftRight = 50.px)
             .noBorder()
-            .backgroundColor(Theme.Primary.rgb)
+            .backgroundColor(JsTheme.Primary.rgb)
             .cursor(Cursor.Pointer)
             .toAttrs()
     ) {

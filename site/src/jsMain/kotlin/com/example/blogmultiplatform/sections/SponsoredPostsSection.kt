@@ -1,9 +1,9 @@
 package com.example.blogmultiplatform.sections
 
 import androidx.compose.runtime.Composable
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.components.PostPreview
 import com.example.blogmultiplatform.models.PostWithoutDetails
-import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Constants.PAGE_WIDTH
 import com.varabyte.kobweb.compose.css.FontWeight
@@ -11,7 +11,6 @@ import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
-import com.varabyte.kobweb.compose.foundation.layout.Spacer
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
@@ -42,7 +41,7 @@ fun SponsoredPostsSection(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 50.px)
-            .backgroundColor(Theme.LightGray.rgb),
+            .backgroundColor(JsTheme.LightGray.rgb),
         contentAlignment = Alignment.Center
     ) {
         Box(
@@ -82,14 +81,14 @@ fun SponsoredPosts(
             FaTag(
                 modifier = Modifier
                     .margin(right = 10.px)
-                    .color(Theme.Sponsored.rgb),
+                    .color(JsTheme.Sponsored.rgb),
                 size = IconSize.XL
             )
             SpanText(
                 modifier = Modifier
                     .fontFamily(FONT_FAMILY)
                     .fontSize(18.px)
-                    .color(Theme.Sponsored.rgb)
+                    .color(JsTheme.Sponsored.rgb)
                     .fontWeight(FontWeight.Bold),
                 text = "Sponsored Posts"
             )
@@ -102,7 +101,7 @@ fun SponsoredPosts(
                 PostPreview(
                     modifier = Modifier.margin(right = 50.px),
                     postWithoutDetails = post,
-                    titleColor = Theme.Sponsored.rgb,
+                    titleColor = JsTheme.Sponsored.rgb,
                     titleMaxLines = 1,
                     vertical = breakpoint < Breakpoint.MD,
                     imageHeight = if (breakpoint >= Breakpoint.MD) 200.px else 300.px,

@@ -1,9 +1,9 @@
 package com.example.androidapp.data
 
-import com.example.androidapp.model.Category
 import com.example.androidapp.model.Post
 import com.example.androidapp.util.Constants.APP_ID
 import com.example.androidapp.util.RequestState
+import com.example.shared.Category
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.log.LogLevel

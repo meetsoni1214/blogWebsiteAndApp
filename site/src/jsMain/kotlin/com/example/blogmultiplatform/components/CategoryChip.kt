@@ -1,17 +1,15 @@
 package com.example.blogmultiplatform.components
 
 import androidx.compose.runtime.Composable
-import com.example.blogmultiplatform.models.Category
-import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
-import com.varabyte.kobweb.compose.css.Cursor
+import com.example.shared.Category
+import com.example.shared.JsTheme
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.border
 import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.color
-import com.varabyte.kobweb.compose.ui.modifiers.cursor
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.height
@@ -33,13 +31,13 @@ fun CategoryChip(
             .border(
                 width = 1.px,
                 style = LineStyle.Solid,
-                color = if (darkTheme) Theme.entries.find { it.hex == category.color }?.rgb  else Theme.HalfBlack.rgb
+                color = if (darkTheme) JsTheme.entries.find { it.hex == category.color }?.rgb  else JsTheme.HalfBlack.rgb
             ),
         contentAlignment = Alignment.Center
     ) {
         SpanText(
             modifier = Modifier
-                .color(if (darkTheme) Theme.entries.find { it.hex == category.color }?.rgb ?: Theme.HalfWhite.rgb else Theme.HalfBlack.rgb)
+                .color(if (darkTheme) JsTheme.entries.find { it.hex == category.color }?.rgb ?: JsTheme.HalfWhite.rgb else JsTheme.HalfBlack.rgb)
                 .fontFamily(FONT_FAMILY)
                 .fontSize(12.px),
             text = category.name

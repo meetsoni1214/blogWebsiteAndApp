@@ -1,5 +1,6 @@
 package com.example.blogmultiplatform.models
 
+import com.example.blogmultiplatform.models.Post
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer

@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.noBorder
 import com.varabyte.kobweb.compose.css.CSSTransition
@@ -40,7 +40,6 @@ import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.ms
-import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Input
 
@@ -68,23 +67,23 @@ fun SearchBar(
                 )
                 .height(54.px)
                 .borderRadius(100.px)
-                .backgroundColor(if (darkTheme) Theme.Tertiary.rgb else Theme.LightGray.rgb)
+                .backgroundColor(if (darkTheme) JsTheme.Tertiary.rgb else JsTheme.LightGray.rgb)
                 .padding(left = 20.px)
                 .border(
                     width = 2.px,
                     style = LineStyle.Solid,
-                    color = if (focused && !darkTheme) Theme.Primary.rgb
-                    else if (focused && darkTheme) Theme.Primary.rgb
-                    else if (!focused && !darkTheme) Theme.LightGray.rgb
-                    else if (!focused && darkTheme) Theme.Secondary.rgb
-                    else Theme.LightGray.rgb
+                    color = if (focused && !darkTheme) JsTheme.Primary.rgb
+                    else if (focused && darkTheme) JsTheme.Primary.rgb
+                    else if (!focused && !darkTheme) JsTheme.LightGray.rgb
+                    else if (!focused && darkTheme) JsTheme.Secondary.rgb
+                    else JsTheme.LightGray.rgb
                 )
                 .transition(CSSTransition(TransitionProperty.All, duration = 200.ms)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             FaMagnifyingGlass(
                 modifier = Modifier
-                    .color(if (focused) Theme.Primary.rgb else Theme.DarkGray.rgb)
+                    .color(if (focused) JsTheme.Primary.rgb else JsTheme.DarkGray.rgb)
                     .margin(right = 14.px),
                 size = IconSize.SM
             )
@@ -111,7 +110,7 @@ fun SearchBar(
     } else {
         FaMagnifyingGlass(
             modifier = Modifier
-                .color(Theme.Primary.rgb)
+                .color(JsTheme.Primary.rgb)
                 .onClick { onSearchIconClick(true) }
                 .cursor(Cursor.Pointer)
                 .margin(right = 14.px),

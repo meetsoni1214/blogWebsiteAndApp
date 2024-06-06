@@ -14,9 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import com.example.androidapp.components.PostsCardView
-import com.example.androidapp.model.Category
 import com.example.androidapp.model.Post
 import com.example.androidapp.util.RequestState
+import com.example.shared.Category
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

@@ -7,7 +7,7 @@ import androidx.navigation.navArgument
 import com.example.androidapp.navigation.Screen
 import com.example.androidapp.screens.detail.DetailsScreen
 import com.example.androidapp.util.Constants.POST_ID_ARGUMENT
-import com.example.blogmultiplatform.Constants
+import com.example.shared.Constants
 
 fun NavGraphBuilder.detailsroute(
     onBackPres: () -> Unit

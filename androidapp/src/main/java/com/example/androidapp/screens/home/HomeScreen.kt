@@ -21,9 +21,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
 import com.example.androidapp.components.NavigationDrawer
 import com.example.androidapp.components.PostsCardView
-import com.example.androidapp.model.Category
 import com.example.androidapp.model.Post
 import com.example.androidapp.util.RequestState
+import com.example.shared.Category
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import com.example.blogmultiplatform.components.PostsView
 import com.example.blogmultiplatform.models.PostWithoutDetails
 import com.example.blogmultiplatform.util.Constants.PAGE_WIDTH
-import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier

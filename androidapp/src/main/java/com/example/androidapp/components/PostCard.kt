@@ -31,11 +31,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.androidapp.model.Category
 import com.example.androidapp.model.Post
 import com.example.androidapp.util.RequestState
 import com.example.androidapp.util.convertLongToDate
 import com.example.androidapp.util.decodeThumbnailImage
+import com.example.shared.Category
 
 @Composable
 fun
